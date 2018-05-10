@@ -1,0 +1,19 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+"1d29258" = {path = ".\\Django-2.0.4-py3-none-any.whl"}
+
+
+[dev-packages]
+
+
+
+[requires]
+
+python_version = "3.6"
