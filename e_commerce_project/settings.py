@@ -31,10 +31,11 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'shop',
+    'cart',
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
@@ -122,3 +123,8 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '6r^6yasf^35=@5zq#ylp-!yb57o2c4-u3$tw&iz62b_d2(i7yv'
+# REMOVE the above key after transfer to other machine
+
+CART_SESSION_ID = 'cart'
