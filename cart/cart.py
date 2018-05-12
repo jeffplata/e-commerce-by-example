@@ -12,7 +12,7 @@ class Cart(object):
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # save an empty cart in the session
-            cart = self.session.get(settings.CART_SESSION_ID)
+            cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
     
     def add(self, product, quantity=1, update_quantity=False):
@@ -64,16 +64,18 @@ class Cart(object):
         """
         Count all items in the cart.
         """
-        if self.cart:
-            return sum(item['quantity'] for item in self.cart.values())
-        else:
-            return 0
+        return sum(item['quantity'] for item in self.cart.values())
+        # if self.cart:
+            # return sum(item['quantity'] for item in self.cart.values())
+        # else:
+            # return 0
         
     def get_total_price(self):
-        if self.cart:
-            return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
-        else:
-            return 0
+        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        # if self.cart:
+            # return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        # else:
+            # return 0
         
     def clear(self):
         # remove cart from session
