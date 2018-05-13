@@ -12,7 +12,7 @@ class Cart(object):
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # save an empty cart in the session
-            cart = self.session(settings.CART_SESSION_ID)
+            cart = self.session.get(settings.CART_SESSION_ID)
         self.cart = cart
     
     def add(self, product, quantity=1, update_quantity=False):
@@ -32,7 +32,7 @@ class Cart(object):
     def save(self):
         # update the session cart
         self.session[settings.CART_SESSION_ID] = self.cart
-        # masrk the session as "modified" to make sure it is saved
+        # mark the session as "modified" to make sure it is saved
         self.session.modified = True
         
     def remove(self, product):
@@ -64,12 +64,25 @@ class Cart(object):
         """
         Count all items in the cart.
         """
-        return sum(item['quantity'] for item in self.cart.values())
+        if self.cart:
+            return sum(item['quantity'] for item in self.cart.values())
+        else:
+            return 0
         
     def get_total_price(self):
-        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        if self.cart:
+            return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        else:
+            return 0
         
     def clear(self):
         # remove cart from session
         del self.session[settings.CART_SESSION_ID]
-            self.session.modified = True
+        self.session.modified = True
+    
+    def cart_remove(request, prodcut_id):
+        cart = Cart(request)
+        product =get_object_or_404(Product, id=product_id)
+        cart.remove(product)
+        return redirect('cart:cart_detail')
+        
