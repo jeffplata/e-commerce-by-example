@@ -82,9 +82,3 @@ class Cart(object):
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
     
-    def cart_remove(request, prodcut_id):
-        cart = Cart(request)
-        product =get_object_or_404(Product, id=product_id)
-        cart.remove(product)
-        return redirect('cart:cart_detail')
-        
