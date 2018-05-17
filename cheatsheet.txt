@@ -1,0 +1,9 @@
+
+pip download -d <path> packagename
+
+pip install mypackage --no-index --find-links file:///srv/pkg/mypackage
+
+celery -A projectname worker -l info
+
+celery -A myshop flower
+Open http://localhost:5555/dashboard
