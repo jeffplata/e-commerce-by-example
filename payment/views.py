@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
 from paypal.standard.forms import PayPalPaymentsForm
 from orders.models import Order
@@ -13,7 +13,8 @@ def payment_process(request):
     
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': '%.2f' % order.get_total_cost().quantize(Decimal('.01')),
+        #'amount': '%.2f' % order.get_total_cost().quantize(Decimal('.01')),
+        'amount': '12500',
         'item_name': 'Order {}'.format(order.id),
         'invoice': str(order.id),
         'currency_code': 'PHP',

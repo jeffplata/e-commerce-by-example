@@ -3,6 +3,7 @@ pip download -d <path> packagename
 
 pip install mypackage --no-index --find-links file:///srv/pkg/mypackage
 
+# celery 3.1.25 -- last version for windows
 celery -A projectname worker -l info
 
 celery -A myshop flower
