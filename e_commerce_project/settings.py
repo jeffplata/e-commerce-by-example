@@ -136,3 +136,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 PAYPAL_RECEIVER_EMAIL = 'jeffplata@gmail.com'
 PAYPAL_TEST = True
 
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
