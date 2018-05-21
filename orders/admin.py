@@ -47,7 +47,8 @@ class OrderAdmin(admin.ModelAdmin):
     def order_detail(self, obj):
         #return '<a href="{}">View</a>'.format(
         #    reverse('orders:admin_order_detail', args=[obj.id]))
-        return format_html('<a href="{0}">View</a>', obj.id)
+        return format_html('<a href="{0}">View</a>', 
+            reverse('orders:admin_order_detail', args=[obj.id]))
     
 admin.site.register(Order, OrderAdmin)
 
