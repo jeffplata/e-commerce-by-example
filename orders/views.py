@@ -12,32 +12,40 @@ from .models import Order
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-#import weasyprint
 
 from easy_pdf.views import PDFTemplateView
-class EasyPDFView(PDFTemplateView, order_id):
+class EasyPDFView(PDFTemplateView):
     template_name = 'orders/order/pdf.html'
-    order = get_object_or_404(Order, id=order_id)
     
     def get_context_data(self, **kwargs):
-        return super(EasyPDFView, self).get_context_data(
-            pagesize='A4',
-            title='Hi there!',
-            order=order,
-            **kwargs
-        )    
+        context = super().get_context_data(**kwargs)
+        order = get_object_or_404(Order, id=context['order_id'])
+        context['order'] = order
+        context['pagesize'] = 'A4'
+        context['title'] = 'Invoice'
+        return context
+
+        # return super(EasyPDFView, self).get_context_data(
+            # pagesize='A4',
+            # title='Hi there!',
+            # order=order,
+            # **kwargs
+        # )    
 
 @staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     html = render_to_string('orders/order/pdf.html',
         {'order': order})
-    response = HttpResponse(content_type='application/pdf')
+    #response = HttpResponse(content_type='application/pdf')
+    response = HttpResponse()
     response['Content-Disposition'] = 'filename="order_{}.pdf"'.format(order.id)
     # weasyprint.HTML(string=html).write_pdf(response,
         # stylesheets=[weasyprint.CSS(
         # settings.STATIC_ROOT + 'css/pdf.css')])
-    return response
+    return render(request,
+        'orders/order/pdf.html',
+        {'order': order})
 
 @staff_member_required
 def admin_order_detail(request, order_id):

@@ -1,4 +1,6 @@
+{% load static %}
 <html>
+<link rel="stylesheet" type="text/css" href="{% static "css/pdf.css" %}" />
 <body>
   <h1>My shop</h1>
   <p>
@@ -21,9 +23,9 @@
       <thead>
         <tr>
           <th>Product</th>
-          <th style="text-align: right";>Price</th>
-          <th style="text-align: right";>Quantity</th>
-          <th style="text-align: right";>Cost</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Cost</th>
         </tr>
       </thead>
       <tbody>
