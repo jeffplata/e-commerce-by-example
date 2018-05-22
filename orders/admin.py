@@ -39,7 +39,9 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'first_name', 'last_name', 'email',
                     'address', 'postal_code', 'city', 'paid',
                     'created', 'updated', 
-                    'order_detail',)
+                    'order_detail',
+                    'order_pdf',
+                   )
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
     actions = [export_to_csv]
@@ -49,6 +51,14 @@ class OrderAdmin(admin.ModelAdmin):
         #    reverse('orders:admin_order_detail', args=[obj.id]))
         return format_html('<a href="{0}">View</a>', 
             reverse('orders:admin_order_detail', args=[obj.id]))
+            
+    def order_pdf(self, obj):
+        #return '<a href="{}">PDF</a>'.format(
+        #    reverse('orders:admin_order_pdf', args=[obj.id]))
+        #order_pdf.allow_tags = True
+        return format_html('<a href="{0}">PDF</a>',
+            reverse('orders:admin_order_pdf', args=[obj.id]))
+        order_pdf.short_description = 'PDF bill'
     
 admin.site.register(Order, OrderAdmin)
 

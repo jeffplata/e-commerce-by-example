@@ -8,6 +8,37 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404
 from .models import Order
 
+# additional import for pdf
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+#import weasyprint
+
+from easy_pdf.views import PDFTemplateView
+class EasyPDFView(PDFTemplateView, order_id):
+    template_name = 'orders/order/pdf.html'
+    order = get_object_or_404(Order, id=order_id)
+    
+    def get_context_data(self, **kwargs):
+        return super(EasyPDFView, self).get_context_data(
+            pagesize='A4',
+            title='Hi there!',
+            order=order,
+            **kwargs
+        )    
+
+@staff_member_required
+def admin_order_pdf(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    html = render_to_string('orders/order/pdf.html',
+        {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="order_{}.pdf"'.format(order.id)
+    # weasyprint.HTML(string=html).write_pdf(response,
+        # stylesheets=[weasyprint.CSS(
+        # settings.STATIC_ROOT + 'css/pdf.css')])
+    return response
+
 @staff_member_required
 def admin_order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
