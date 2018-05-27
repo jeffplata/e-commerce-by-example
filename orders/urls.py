@@ -8,7 +8,7 @@ urlpatterns = [
         views.admin_order_detail,
         name='admin_order_detail'),
     path('admin/order/<int:order_id>/pdf/',
-        views.EasyPDFView.as_view(),
-        #views.admin_order_pdf,
+        #views.EasyPDFView.as_view(),
+        views.admin_order_pdf,
         name='admin_order_pdf'),
 ]
